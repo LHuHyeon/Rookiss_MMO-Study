@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Managers : MonoBehaviour
 {
-    static Managers s_instance; // 유일성이 보장된다.
-    public static Managers Instance { get { Init(); return s_instance; } }  // 유일한 매니저를 갖고 온다.
+    private static Managers s_instance; // 유일성이 보장된다.
+    private static Managers Instance { get { Init(); return s_instance; } }  // 유일한 매니저를 갖고 온다.
+
+    private InputManager _input = new InputManager();
+    public static InputManager Input { get { return Instance._input; } }
     
     void Start()
     {
@@ -14,7 +17,7 @@ public class Managers : MonoBehaviour
 
     void Update()
     {
-        
+        Input.OnUpdate();
     }
 
     // 싱글톤 메소드
