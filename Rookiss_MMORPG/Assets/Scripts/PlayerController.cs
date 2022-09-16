@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        // OnKeyboard를 빼준 후 더해주는 이유
+        // 같은 메소드가 두번 호출되는 것을 막기 위해서. (두번 호출 되는 에러는 찾기 힘듬)
         Managers.Input.KeyAction -= OnKeyboard;
         Managers.Input.KeyAction += OnKeyboard;
     }

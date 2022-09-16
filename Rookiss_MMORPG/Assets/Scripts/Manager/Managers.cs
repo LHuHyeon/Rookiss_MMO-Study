@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class Managers : MonoBehaviour
 {
+    // private static = 같은 클래스 안에서만 호출 가능.
+    // public static = 다른 클래스에서도 호출 가능.
     private static Managers s_instance; // 유일성이 보장된다.
     private static Managers Instance { get { Init(); return s_instance; } }  // 유일한 매니저를 갖고 온다.
 
     private InputManager _input = new InputManager();
+    private ResourceManager _resource = new ResourceManager();
+
     public static InputManager Input { get { return Instance._input; } }
+    public static ResourceManager Resource { get { return Instance._resource; } }
     
     void Start()
     {
-        Init();
+        Init();     // 싱글톤
     }
 
     void Update()
     {
-        Input.OnUpdate();
+        Input.OnUpdate();   // 키입력 메소드 호출
     }
 
     // 싱글톤 메소드
