@@ -11,6 +11,8 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private GameObject _player;
 
+    RaycastHit hit;
+
     void Start()
     {
         
@@ -20,8 +22,15 @@ public class CameraController : MonoBehaviour
     void LateUpdate()
     {
         if (_mode == Define.CameraMode.QuarterView){
-            transform.position = _player.transform.position + _delta;
-            transform.LookAt(_player.transform);
+            // 플레이어가 오브젝트에 가려져있다면 가깝게 이동
+            if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Wall"))){
+                float dist = (hit.point - _player.transform.position).magnitude * 0.8f;
+                transform.position = (_player.transform.position + Vector3.up) + _delta.normalized * dist;
+            }
+            else{
+                transform.position = _player.transform.position + _delta;
+                transform.LookAt(_player.transform);
+            }
         }
     }
 

@@ -6,11 +6,11 @@ public class Define : MonoBehaviour
 {
     public enum MouseEvent
     {
-        Press,
-        Click,
+        Press,      // 꾹 누를 때 상태
+        Click,      // 클릭 상태 (Press 상태가 끝난 상태)
     }
     public enum CameraMode
     {
-        QuarterView,
+        QuarterView,    // 디아블로 게임 같은 시점
     }
 }
