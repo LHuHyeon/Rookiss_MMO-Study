@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System;
 
 public class InputManager
@@ -13,6 +14,10 @@ public class InputManager
 
     public void OnUpdate()
     {
+        // UI 클릭 확인
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         // 키입력 메소드가 KeyAction안에 존재하는가?
         if (Input.anyKey && KeyAction != null)
             KeyAction.Invoke();

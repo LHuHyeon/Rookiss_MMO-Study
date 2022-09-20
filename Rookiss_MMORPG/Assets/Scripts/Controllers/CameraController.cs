@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
     {
         if (_mode == Define.CameraMode.QuarterView){
             // 플레이어가 오브젝트에 가려져있다면 가깝게 이동
-            if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Wall"))){
+            if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Structure"))){
                 float dist = (hit.point - _player.transform.position).magnitude * 0.8f;
                 transform.position = (_player.transform.position + Vector3.up) + _delta.normalized * dist;
             }

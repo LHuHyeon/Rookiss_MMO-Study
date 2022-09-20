@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float _speed = 10.0f;   // 이동 속도
     
-    float wait_run_ratio = 0;       // 애니메이션 값 1~0
-    
     Vector3 _destPos;               // 도착 좌표
 
     RaycastHit hit;
@@ -72,26 +70,14 @@ public class PlayerController : MonoBehaviour
         }
 
         // 애니메이션
-        if (wait_run_ratio <= 0.98f)
-            wait_run_ratio = Mathf.Lerp(wait_run_ratio, 1, 10f * Time.deltaTime);
-        else
-            wait_run_ratio = 1f;
-
-        anim.SetFloat("wait_run_ratio", wait_run_ratio);
-        anim.Play("WAIT_RUN");
+        anim.SetFloat("speed", _speed);
     }
     
     // 멈추는 메소드
     void UpdateIdle()
     {
         // 애니메이션
-        if (wait_run_ratio >= 0.01f)   
-            wait_run_ratio = Mathf.Lerp(wait_run_ratio, 0, 10f * Time.deltaTime);
-        else
-            wait_run_ratio = 0f;
-
-        anim.SetFloat("wait_run_ratio", wait_run_ratio);
-        anim.Play("WAIT_RUN");
+        anim.SetFloat("speed", 0f);
     }
 
     // 죽음 메소드
