@@ -2,12 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Button : MonoBehaviour
+public class UI_Button : UI_Base
 {
-    Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>();
-
     int score = 0;
 
     enum Buttons
@@ -21,26 +20,35 @@ public class UI_Button : MonoBehaviour
         ScoreText,
     }
 
+    enum GameObjects
+    {
+        TestObject,
+    }
+
+    enum Images
+    {
+        ItemIcon,
+    }
+
     private void Start() {
         Bind<Button>(typeof(Buttons));
         Bind<Text>(typeof(Texts));
+        Bind<GameObject>(typeof(GameObjects));
+        Bind<Image>(typeof(Images));
+
+        GetButton((int)Buttons.PointButton).gameObject.AddUIEvent(OnButtonClicked);
+
+        GameObject go = GetImage((int)Images.ItemIcon).gameObject;
+        AddUIEvent(go, ((PointerEventData data) => { go.transform.position = data.position; }), Define.UIEvent.Drag);
+        // ↑ 코드로 대체됨.
+        // UI_EventHandler evt = go.GetComponent<UI_EventHandler>();
+        // evt.OnDragHandler += ((PointerEventData data) => { evt.gameObject.transform.position = data.position; });
     }
 
-    // where T : 부모 클래스의 자식 클래스만 가능
-    void Bind<T>(Type type) where T : UnityEngine.Object
-    {
-        // C++과 다르게 C#은 enum안에 있는 내용을 읽을 수 있다!
-        string[] names = Enum.GetNames(type);   // C# 기능
-        UnityEngine.Object[] objects = new UnityEngine.Object[names.Length];
-        _objects.Add(typeof(T), objects);
-
-        for(int i = 0; i < names.Length; i++){
-            objects[i] = Util.FindChild<T>(gameObject, names[i], true);
-        }
-    }
-
-    public void OnButtonClicked()
+    public void OnButtonClicked(PointerEventData data)
     {
         score++;
+
+        GetText((int)Texts.ScoreText).text = $"점수 : {score}";
     }
 }
