@@ -36,17 +36,20 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\UI\UI_EventHandler.cs" />
      <Compile Include="Assets\Scripts\Utills\Define.cs" />
+     <Compile Include="Assets\Scripts\Utills\Extension.cs" />
      <Compile Include="Assets\Scripts\Controllers\CameraController.cs" />
-     <Compile Include="Assets\Scripts\UI\UI_Button.cs" />
+     <Compile Include="Assets\Scripts\UI\Popup\UI_Button.cs" />
      <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Utills\Util.cs" />
      <Compile Include="Assets\Scripts\Manager\InputManager.cs" />
      <Compile Include="Assets\Scripts\Manager\Managers.cs" />
-     <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
      <Compile Include="Assets\Scripts\UI\UI_Base.cs" />
-     <Compile Include="Assets\Scripts\UI\UI_EventHandler.cs" />
-     <Compile Include="Assets\Scripts\Utills\Extension.cs" />
+     <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
+     <Compile Include="Assets\Scripts\UI\Popup\UI_Popup.cs" />
+     <Compile Include="Assets\Scripts\UI\Scene\UI_Scene.cs" />
+     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_fuku.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_akarami_blend.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hair_ds.shader" />

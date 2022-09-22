@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -29,6 +30,10 @@ public class PlayerController : MonoBehaviour
         // 같은 메소드가 두번 호출되는 것을 막기 위해서.
         Managers.Input.MouseAction -= OnMouseClicked;
         Managers.Input.MouseAction += OnMouseClicked;
+
+        // TEMP
+        // Managers.UI.ShowPopupUI<UI_Button>();
+        // Managers.UI.ClosePopupUI(uI_Button);
     }
 
     void Update()
