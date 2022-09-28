@@ -42,12 +42,13 @@ public abstract class UI_Base : MonoBehaviour
     }
 
     // 자주 사용하는 컴포넌트는 사용하기 좋게 메소드 생성
+    protected GameObject GetObject(int idx) { return Get<GameObject>(idx); }
     protected Text GetText(int idx) { return Get<Text>(idx); }
     protected Button GetButton(int idx) { return Get<Button>(idx); }
     protected Image GetImage(int idx) { return Get<Image>(idx); }
 
     // Event 핸들러에 관한 메소드
-    public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
+    public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {
         UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
 

@@ -46,12 +46,12 @@
      <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Utills\Util.cs" />
      <Compile Include="Assets\Scripts\Manager\InputManager.cs" />
+     <Compile Include="Assets\Scripts\UI\Scene\UI_Inven.cs" />
+     <Compile Include="Assets\Scripts\UI\SubItem\UI_Inven_Item.cs" />
      <Compile Include="Assets\Scripts\UI\Scene\UI_Scene.cs" />
      <Compile Include="Assets\Scripts\Manager\Managers.cs" />
      <Compile Include="Assets\Scripts\UI\UI_Base.cs" />
      <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
-     <Compile Include="Assets\Scripts\UI\Scene\UI_Inven.cs" />
-     <Compile Include="Assets\Scripts\UI\Scene\UI_Inven_Item.cs" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_fuku.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_akarami_blend.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hair_ds.shader" />
@@ -649,6 +649,9 @@
     <Reference Include="Unity.TextMeshPro">
         <HintPath>C:\Users\82103\OneDrive\문서\Git_SourceTree\Rookiss_MMO\Rookiss_MMORPG\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+        <HintPath>C:\Users\82103\OneDrive\문서\Git_SourceTree\Rookiss_MMO\Rookiss_MMORPG\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
         <HintPath>C:\Users\82103\OneDrive\문서\Git_SourceTree\Rookiss_MMO\Rookiss_MMORPG\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -660,9 +663,6 @@
     </Reference>
     <Reference Include="UnityEngine.UI">
         <HintPath>C:\Users\82103\OneDrive\문서\Git_SourceTree\Rookiss_MMO\Rookiss_MMORPG\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-        <HintPath>C:\Users\82103\OneDrive\문서\Git_SourceTree\Rookiss_MMO\Rookiss_MMORPG\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
