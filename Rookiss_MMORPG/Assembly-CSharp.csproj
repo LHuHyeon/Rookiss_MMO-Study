@@ -36,6 +36,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
+     <Compile Include="Assets\Scripts\UI\Popup\UI_Popup.cs" />
      <Compile Include="Assets\Scripts\UI\UI_EventHandler.cs" />
      <Compile Include="Assets\Scripts\Utills\Define.cs" />
      <Compile Include="Assets\Scripts\Utills\Extension.cs" />
@@ -44,16 +46,17 @@
      <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Utills\Util.cs" />
      <Compile Include="Assets\Scripts\Manager\InputManager.cs" />
+     <Compile Include="Assets\Scripts\UI\Scene\UI_Scene.cs" />
      <Compile Include="Assets\Scripts\Manager\Managers.cs" />
      <Compile Include="Assets\Scripts\UI\UI_Base.cs" />
      <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
-     <Compile Include="Assets\Scripts\UI\Popup\UI_Popup.cs" />
-     <Compile Include="Assets\Scripts\UI\Scene\UI_Scene.cs" />
-     <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
+     <Compile Include="Assets\Scripts\UI\Scene\UI_Inven.cs" />
+     <Compile Include="Assets\Scripts\UI\Scene\UI_Inven_Item.cs" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_fuku.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_akarami_blend.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hair_ds.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hada.shader" />
+     <None Include="Assets\Unity UI Samples\Textures and Sprites\SF UI\Background\LICENSE.txt" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_fuku_ds.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_eyelash_blend.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Sounds\unity-chan_voice_list.txt" />
@@ -657,6 +660,9 @@
     </Reference>
     <Reference Include="UnityEngine.UI">
         <HintPath>C:\Users\82103\OneDrive\문서\Git_SourceTree\Rookiss_MMO\Rookiss_MMORPG\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+        <HintPath>C:\Users\82103\OneDrive\문서\Git_SourceTree\Rookiss_MMO\Rookiss_MMORPG\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

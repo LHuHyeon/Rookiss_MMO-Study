@@ -5,10 +5,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Base : MonoBehaviour
+public abstract class UI_Base : MonoBehaviour
 {
     // 컴포넌트 타입 별로 담아줄 딕셔너리(자료구조)
     protected Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>();
+
+    public abstract void Init();
 
     // where T : 부모 클래스의 자식 클래스만 가능
     protected void Bind<T>(Type type) where T : UnityEngine.Object
