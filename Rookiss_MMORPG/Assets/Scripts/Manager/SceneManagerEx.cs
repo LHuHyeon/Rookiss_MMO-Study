@@ -12,7 +12,7 @@ public class SceneManagerEx
     // Scene 같은 경우 자주 사용하지 않기 때문에 너무 걱정할 필요는 없다.
     public void LoadScene(Define.Scene type)
     {
-        CurrentScene.Clear();
+        Managers.Clear();
         SceneManager.LoadScene(GetSceneName(type));
     }
 
@@ -20,5 +20,10 @@ public class SceneManagerEx
     {
         string name = System.Enum.GetName(typeof(Define.Scene), type);
         return name;
+    }
+
+    public void Clear()
+    {
+        CurrentScene.Clear();
     }
 }

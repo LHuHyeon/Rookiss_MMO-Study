@@ -22,6 +22,7 @@ public class UIManager
         }
     }
 
+    // 오브젝트에 Canvas를 추가하고 order을 설정
     public void SetCanvas(GameObject go, bool sort = true)
     {
         Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
@@ -37,6 +38,7 @@ public class UIManager
         }
     }
 
+    // 인벤토리의 슬롯 및 아이템 생성
     public T MakeSubItem<T>(Transform parent = null, string name = null) where T : UI_Base
     {
         if (string.IsNullOrEmpty(name)){
@@ -116,5 +118,11 @@ public class UIManager
         while (_popupStack.Count > 0){
             ClosePopupUI();
         }
+    }
+
+    public void Clear()
+    {
+        CloseAllPopupUI();
+        _sceneUI = null;
     }
 }

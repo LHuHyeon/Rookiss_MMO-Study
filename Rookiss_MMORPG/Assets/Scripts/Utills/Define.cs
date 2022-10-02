@@ -12,6 +12,13 @@ public class Define : MonoBehaviour
         Game,
     }
 
+    public enum Sound
+    {
+        Bgm,
+        Effect,
+        MaxCount,   // MaxCount를 enum 마지막 자리에 두면 사운드 종류 최대 개수가 저장됨.
+    }
+
     public enum UIEvent
     {
         Click,

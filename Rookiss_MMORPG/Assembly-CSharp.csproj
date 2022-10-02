@@ -41,6 +41,7 @@
      <Compile Include="Assets\Scripts\UI\UI_EventHandler.cs" />
      <Compile Include="Assets\Scripts\Utills\Define.cs" />
      <Compile Include="Assets\Scripts\Utills\Extension.cs" />
+     <Compile Include="Assets\Scripts\Scenes\BaseScene.cs" />
      <Compile Include="Assets\Scripts\Controllers\CameraController.cs" />
      <Compile Include="Assets\Scripts\UI\Popup\UI_Button.cs" />
      <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
@@ -48,14 +49,14 @@
      <Compile Include="Assets\Scripts\Manager\InputManager.cs" />
      <Compile Include="Assets\Scripts\UI\Scene\UI_Inven.cs" />
      <Compile Include="Assets\Scripts\UI\SubItem\UI_Inven_Item.cs" />
+     <Compile Include="Assets\Scripts\Manager\SceneManagerEx.cs" />
      <Compile Include="Assets\Scripts\UI\Scene\UI_Scene.cs" />
+     <Compile Include="Assets\Scripts\Scenes\GameScene.cs" />
      <Compile Include="Assets\Scripts\Manager\Managers.cs" />
      <Compile Include="Assets\Scripts\UI\UI_Base.cs" />
-     <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
-     <Compile Include="Assets\Scripts\Scenes\BaseScene.cs" />
-     <Compile Include="Assets\Scripts\Scenes\GameScene.cs" />
      <Compile Include="Assets\Scripts\Scenes\LoginScene.cs" />
-     <Compile Include="Assets\Scripts\Manager\SceneManagerEx.cs" />
+     <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_fuku.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_akarami_blend.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hair_ds.shader" />
@@ -63,7 +64,7 @@
      <None Include="Assets\Unity UI Samples\Textures and Sprites\SF UI\Background\LICENSE.txt" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_fuku_ds.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_eyelash_blend.shader" />
-     <None Include="Assets\Resources\Art\UnityChan!\Sounds\unity-chan_voice_list.txt" />
+     <None Include="Assets\Resources\Sounds\UnityChan\unity-chan_voice_list.txt" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hada_blend.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_eye.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hair.shader" />

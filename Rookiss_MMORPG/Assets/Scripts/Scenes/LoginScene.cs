@@ -10,6 +10,8 @@ public class LoginScene : BaseScene
         base.Init();
 
         SceneType = Define.Scene.Login;
+
+        Debug.Log("LoginScene");
     }
 
     void Update()

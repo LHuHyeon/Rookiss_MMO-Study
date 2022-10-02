@@ -16,7 +16,9 @@ public abstract class UI_Base : MonoBehaviour
     protected void Bind<T>(Type type) where T : UnityEngine.Object
     {
         // C++과 다르게 C#은 enum안에 있는 내용을 읽을 수 있다!
-        string[] names = Enum.GetNames(type);   // C# 기능
+        string[] names = Enum.GetNames(type);
+        
+        // enum의 개수만큼 배열 생성 후 _objects에 추가
         UnityEngine.Object[] objects = new UnityEngine.Object[names.Length];
         _objects.Add(typeof(T), objects);
 
@@ -34,7 +36,10 @@ public abstract class UI_Base : MonoBehaviour
     // 사용 메소드
     protected T Get<T>(int idx) where T : UnityEngine.Object
     {
+        // Dictionary의 Value를 받을 변수 생성
         UnityEngine.Object[] objects = null;
+
+        // 해당 Key 컴포넌트에 Value가 존재하는지 확인
         if (_objects.TryGetValue(typeof(T), out objects) == false)
             return null;
 
@@ -50,11 +55,14 @@ public abstract class UI_Base : MonoBehaviour
     // Event 핸들러에 관한 메소드
     public static void BindEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {
+        // 객체에 컴포넌트 추가 및 읽어오기
+        // EventSystem 관련 클래스이기 때문에 스크립트를 추가하면 클릭 드래그에 관한 메소드를 바로 사용 가능하다.
         UI_EventHandler evt = Util.GetOrAddComponent<UI_EventHandler>(go);
 
+        // UI_EventHandler 안에 action을 받을 Action 델리게이트가 있음!
         switch (type){
             case Define.UIEvent.Click:
-                evt.OnClickHandler -= action;
+                evt.OnClickHandler -= action;   // 중복 방지로 제거 후 추가함.
                 evt.OnClickHandler += action;
                 break;
             case Define.UIEvent.Drag:
