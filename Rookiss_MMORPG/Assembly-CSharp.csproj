@@ -57,6 +57,8 @@
      <Compile Include="Assets\Scripts\Scenes\LoginScene.cs" />
      <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
      <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\PoolManager.cs" />
+     <Compile Include="Assets\Scripts\Manager\Poolable.cs" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_fuku.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_akarami_blend.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hair_ds.shader" />

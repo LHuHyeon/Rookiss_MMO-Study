@@ -16,7 +16,7 @@ public class Define : MonoBehaviour
     {
         Bgm,
         Effect,
-        MaxCount,   // MaxCount를 enum 마지막 자리에 두면 사운드 종류 최대 개수가 저장됨.
+        MaxCount,   // MaxCount를 마지막 자리에 둠으로 써 해당 enum의 최대 개수(int)가 저장됨.
     }
 
     public enum UIEvent
