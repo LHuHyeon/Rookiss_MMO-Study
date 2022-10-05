@@ -9,6 +9,7 @@ public class Managers : MonoBehaviour
     private static Managers s_instance; // 유일성이 보장된다.
     private static Managers Instance { get { Init(); return s_instance; } }  // 유일한 매니저를 갖고 온다.
 
+    private DataManager _data = new DataManager();
     private InputManager _input = new InputManager();
     private PoolManager _pool = new PoolManager();
     private ResourceManager _resource = new ResourceManager();
@@ -16,6 +17,7 @@ public class Managers : MonoBehaviour
     private SoundManager _sound = new SoundManager();
     private UIManager _ui = new UIManager();
 
+    public static DataManager Data { get { return Instance._data; } }
     public static InputManager Input { get { return Instance._input; } }
     public static PoolManager Pool { get { return Instance._pool; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
@@ -54,6 +56,7 @@ public class Managers : MonoBehaviour
             // (개인적인 생각으로는 s_instance가 생성된 후 호출하는 것이기 때문에 무한루프에 걸리진 않을 것 같다.)
             s_instance._sound.Init();
             s_instance._pool.Init();
+            s_instance._data.Init();
         }
     }
 
@@ -63,7 +66,8 @@ public class Managers : MonoBehaviour
         Input.Clear();
         UI.Clear();
         Scene.Clear();
-
         Pool.Clear();   // Pool 객체를 다른 매니저에서 사용할 수 있으므로 마지막에 Clear
+
+    //  Data.Clear();  <- Data는 게임 중 항상 들고 있는 것이 맞기 때문에 Clear 하지 않는다.
     }
 }
