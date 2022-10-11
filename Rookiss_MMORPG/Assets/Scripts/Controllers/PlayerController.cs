@@ -5,9 +5,7 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = 10.0f;   // 이동 속도
-    
+    PlayerStat _stat;
     Vector3 _destPos;               // 도착 좌표
 
     RaycastHit hit;
@@ -19,11 +17,13 @@ public class PlayerController : MonoBehaviour
         Moving,
         Idle,
         Die,
+        Skill,
     }
     PlayerState _state = PlayerState.Idle;
 
     void Start()
     {
+        _stat = gameObject.GetComponent<PlayerStat>();
         anim = GetComponent<Animator>();
 
         // OnKeyboard를 빼준 후 더해주는 이유
@@ -53,7 +53,6 @@ public class PlayerController : MonoBehaviour
     {
         // 도착 위치 벡터에서 플레이어 위치 벡터를 뺀다.
         Vector3 dir = _destPos - transform.position;
-        Quaternion dr;
 
         // Vector3.magnitude = 벡터값의 길이
         if (dir.magnitude < 0.1f){
@@ -63,7 +62,7 @@ public class PlayerController : MonoBehaviour
             // TODO
             NavMeshAgent nav = gameObject.GetComponent<NavMeshAgent>();
 
-            float moveDist = Mathf.Clamp(_speed * Time.deltaTime, 0, dir.magnitude);
+            float moveDist = Mathf.Clamp(_stat.MoveSpeed * Time.deltaTime, 0, dir.magnitude);
             nav.Move(dir.normalized * moveDist);
 
             // 건물을 클릭하여 이동하면 건물 앞에 멈추기 (1.0f 거리에서 멈추기)
@@ -84,7 +83,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // 애니메이션
-        anim.SetFloat("speed", _speed);
+        anim.SetFloat("speed", _stat.MoveSpeed);
     }
     
     // 멈추는 메소드
@@ -101,6 +100,7 @@ public class PlayerController : MonoBehaviour
     }
     
     // 마우스 클릭 메소드
+    int _mask = (1 << (int)Define.Layer.Ground) | (1 << (int)Define.Layer.Monster);
     void OnMouseClicked(Define.MouseEvent evt)
     {
         if (_state == PlayerState.Die)
@@ -113,9 +113,13 @@ public class PlayerController : MonoBehaviour
         // Debug.DrawRay(Camera.main.transform.position, ray.direction * 100f, Color.red, 1.0f);
 
         // Ray를 발사한 위치에 정보를 가져온다.
-        if (Physics.Raycast(ray, out hit, 100f, LayerMask.GetMask("Wall"))){
+        if (Physics.Raycast(ray, out hit, 100f, _mask)){
             _destPos = hit.point;   // 해당 좌표 저장
             _state = PlayerState.Moving;
+
+            if (hit.collider.gameObject.layer == (int)Define.Layer.Monster){
+                Debug.Log("Monster Click!!");
+            }
         }
     }
 }
