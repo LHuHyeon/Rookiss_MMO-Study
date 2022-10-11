@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -56,18 +56,31 @@ public class PlayerController : MonoBehaviour
         Quaternion dr;
 
         // Vector3.magnitude = 벡터값의 길이
-        if (dir.magnitude < 0.0001f){
+        if (dir.magnitude < 0.1f){
             _state = PlayerState.Idle;
         }
         else{
+            // TODO
+            NavMeshAgent nav = gameObject.GetComponent<NavMeshAgent>();
+
             float moveDist = Mathf.Clamp(_speed * Time.deltaTime, 0, dir.magnitude);
-            transform.position += dir.normalized * moveDist;
-            dr = Quaternion.LookRotation(dir);
-            dr.x = 0;   // 위치 도착 후 앞으로 인사하는 행동(자꾸 앞으로 기울임) 방지
-            dr.z = 0;
-            // ↓ 부드럽게 해당 위치 바라보기
-            transform.rotation = Quaternion.Slerp(transform.rotation, dr, 20f * Time.deltaTime);
-            // transform.LookAt(_destPos); // 해당 위치를 바라보기 (딱딱함)   
+            nav.Move(dir.normalized * moveDist);
+
+            // 건물을 클릭하여 이동하면 건물 앞에 멈추기 (1.0f 거리에서 멈추기)
+            Debug.DrawRay(transform.position + (Vector3.up * 0.5f), dir.normalized, Color.red);
+            if (Physics.Raycast(transform.position + (Vector3.up * 0.5f), dir, 1.0f, LayerMask.GetMask("Block"))){
+                _state = PlayerState.Idle;
+                return;
+            }
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20f * Time.deltaTime);
+            
+            // // transform.position += dir.normalized * moveDist;
+            // dr = Quaternion.LookRotation(dir);
+            // dr.x = 0;   // 위치 도착 후 앞으로 인사하는 행동(자꾸 앞으로 기울임) 방지
+            // dr.z = 0;
+            // // ↓ 부드럽게 해당 위치 바라보기
+            // transform.rotation = Quaternion.Slerp(transform.rotation, dr, 20f * Time.deltaTime);
         }
 
         // 애니메이션
@@ -97,7 +110,7 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         // 씬에서 ray가 출력
-        Debug.DrawRay(Camera.main.transform.position, ray.direction * 100f, Color.red, 1.0f);
+        // Debug.DrawRay(Camera.main.transform.position, ray.direction * 100f, Color.red, 1.0f);
 
         // Ray를 발사한 위치에 정보를 가져온다.
         if (Physics.Raycast(ray, out hit, 100f, LayerMask.GetMask("Wall"))){

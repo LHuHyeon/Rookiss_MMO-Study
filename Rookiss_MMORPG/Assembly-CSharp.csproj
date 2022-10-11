@@ -36,11 +36,13 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Data\Data.Contents.cs" />
      <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
      <Compile Include="Assets\Scripts\UI\Popup\UI_Popup.cs" />
      <Compile Include="Assets\Scripts\UI\UI_EventHandler.cs" />
      <Compile Include="Assets\Scripts\Utills\Define.cs" />
      <Compile Include="Assets\Scripts\Utills\Extension.cs" />
+     <Compile Include="Assets\Scripts\Data\Stat.cs" />
      <Compile Include="Assets\Scripts\Manager\Poolable.cs" />
      <Compile Include="Assets\Scripts\Manager\PoolManager.cs" />
      <Compile Include="Assets\Scripts\Scenes\BaseScene.cs" />
@@ -58,11 +60,10 @@
      <Compile Include="Assets\Scripts\UI\UI_Base.cs" />
      <Compile Include="Assets\Scripts\Scenes\LoginScene.cs" />
      <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
-     <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Manager\DataManager.cs" />
-     <Compile Include="Assets\Scripts\Data\Data.Contents.cs" />
-     <Compile Include="Assets\Scripts\Data\Stat.cs" />
+     <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_fuku.shader" />
+     <None Include="Assets\Resources\Art\Town\Readme.txt" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_akarami_blend.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hair_ds.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hada.shader" />
@@ -73,6 +74,7 @@
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hada_blend.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_eye.shader" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_hair.shader" />
+     <None Include="Assets\Resources\Art\Town\Readme FIRST!.txt" />
      <None Include="Assets\Resources\Art\UnityChan!\Shader\Unitychan_chara_eye_blend.shader" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.29f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
