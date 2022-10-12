@@ -43,8 +43,8 @@ public class PlayerController : MonoBehaviour
 
         // OnKeyboard를 빼준 후 더해주는 이유
         // 같은 메소드가 두번 호출되는 것을 막기 위해서.
-        Managers.Input.MouseAction -= OnMouseClicked;
-        Managers.Input.MouseAction += OnMouseClicked;
+        Managers.Input.MouseAction -= OnMouseEvent;
+        Managers.Input.MouseAction += OnMouseEvent;
     }
 
     void Update()
@@ -67,6 +67,10 @@ public class PlayerController : MonoBehaviour
 
     void UpdateMouseCursor()
     {
+        // 마우스 클릭 중일 땐 커서 바뀌지 않게 하기!
+        if (Input.GetMouseButton(0))
+            return;
+        
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit, 100f, _mask)){
@@ -105,18 +109,12 @@ public class PlayerController : MonoBehaviour
             // 건물을 클릭하여 이동하면 건물 앞에 멈추기 (1.0f 거리에서 멈추기)
             Debug.DrawRay(transform.position + (Vector3.up * 0.5f), dir.normalized, Color.red);
             if (Physics.Raycast(transform.position + (Vector3.up * 0.5f), dir, 1.0f, LayerMask.GetMask("Block"))){
-                _state = PlayerState.Idle;
+                if (Input.GetMouseButton(0) == false)
+                    _state = PlayerState.Idle;
                 return;
             }
             
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20f * Time.deltaTime);
-            
-            // // transform.position += dir.normalized * moveDist;
-            // dr = Quaternion.LookRotation(dir);
-            // dr.x = 0;   // 위치 도착 후 앞으로 인사하는 행동(자꾸 앞으로 기울임) 방지
-            // dr.z = 0;
-            // // ↓ 부드럽게 해당 위치 바라보기
-            // transform.rotation = Quaternion.Slerp(transform.rotation, dr, 20f * Time.deltaTime);
         }
 
         // 애니메이션
@@ -137,26 +135,47 @@ public class PlayerController : MonoBehaviour
     }
     
     // 마우스 클릭 메소드
+    GameObject _lockTarget;
     int _mask = (1 << (int)Define.Layer.Ground) | (1 << (int)Define.Layer.Monster);
-    void OnMouseClicked(Define.MouseEvent evt)
+    void OnMouseEvent(Define.MouseEvent evt)
     {
         if (_state == PlayerState.Die)
             return;
 
         // 메인 카메라에서 마우스가 가르키는 위치의 ray를 저장
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        bool raycastHit = Physics.Raycast(ray, out hit, 100f, _mask);
 
-        // 씬에서 ray가 출력
-        // Debug.DrawRay(Camera.main.transform.position, ray.direction * 100f, Color.red, 1.0f);
+        switch (evt)
+        {
+            // 마우스를 클릭했을 때 [ 클릭한 위치로 이동 ]
+            case Define.MouseEvent.PointDown:
+                {
+                    if (raycastHit){
+                        _destPos = hit.point;   // 해당 좌표 저장
+                        _state = PlayerState.Moving;
 
-        // Ray를 발사한 위치에 정보를 가져온다.
-        if (Physics.Raycast(ray, out hit, 100f, _mask)){
-            _destPos = hit.point;   // 해당 좌표 저장
-            _state = PlayerState.Moving;
-
-            if (hit.collider.gameObject.layer == (int)Define.Layer.Monster){
-                Debug.Log("Monster Click!!");
-            }
+                        if (hit.collider.gameObject.layer == (int)Define.Layer.Monster)
+                            _lockTarget = hit.collider.gameObject;
+                        else
+                            _lockTarget = null;
+                    }
+                }
+                break;
+            // 마우스를 클릭 중일 때
+            case Define.MouseEvent.Press:
+                {
+                    if (_lockTarget != null)
+                        _destPos = _lockTarget.transform.position;
+                    else if (raycastHit) {
+                        _destPos = hit.point;
+                    }
+                }
+                break;
+            // 마우스를 땠을 때
+            case Define.MouseEvent.PointUp:
+                _lockTarget = null;
+                break;
         }
     }
 }

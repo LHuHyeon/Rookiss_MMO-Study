@@ -35,6 +35,8 @@ public class Define : MonoBehaviour
     public enum MouseEvent
     {
         Press,      // 꾹 누를 때 상태
+        PointDown,
+        PointUp,
         Click,      // 클릭 상태 (Press 상태가 끝난 상태)
     }
 
