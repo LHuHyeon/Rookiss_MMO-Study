@@ -11,6 +11,18 @@ public class PlayerController : MonoBehaviour
     RaycastHit hit;
     Animator anim;
 
+    Texture2D _attackIcon;
+    Texture2D _handIcon;
+
+    // 마우스 커서 상태
+    public enum CursorType
+    {
+        None,
+        Attack,
+        Hand,
+    }
+    CursorType _cursorType = CursorType.None;
+
     // 플레이어 상태
     public enum PlayerState
     {
@@ -26,6 +38,9 @@ public class PlayerController : MonoBehaviour
         _stat = gameObject.GetComponent<PlayerStat>();
         anim = GetComponent<Animator>();
 
+        _attackIcon = Managers.Resource.Load<Texture2D>("Textures/Cursor/Attack");
+        _handIcon = Managers.Resource.Load<Texture2D>("Textures/Cursor/Hand");
+
         // OnKeyboard를 빼준 후 더해주는 이유
         // 같은 메소드가 두번 호출되는 것을 막기 위해서.
         Managers.Input.MouseAction -= OnMouseClicked;
@@ -34,6 +49,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        UpdateMouseCursor();
+
         // State 패턴
         switch (_state){
             case PlayerState.Moving:    // 움직임
@@ -45,6 +62,26 @@ public class PlayerController : MonoBehaviour
             case PlayerState.Die:       // 죽음
                 UpdateDie();
                 break;
+        }
+    }
+
+    void UpdateMouseCursor()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 100f, _mask)){
+            if (hit.collider.gameObject.layer == (int)Define.Layer.Monster){
+                if (_cursorType != CursorType.Attack){
+                    Cursor.SetCursor(_attackIcon, new Vector2(_attackIcon.width / 5, 0), CursorMode.Auto);
+                    _cursorType = CursorType.Attack;
+                }
+            }
+            else{
+                if (_cursorType != CursorType.Hand){
+                    Cursor.SetCursor(_handIcon, new Vector2(_handIcon.width / 3, 0), CursorMode.Auto);
+                    _cursorType = CursorType.Hand;
+                }
+            }
         }
     }
 
