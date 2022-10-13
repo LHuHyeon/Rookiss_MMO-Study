@@ -8690,6 +8690,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnityChan
       objectReference: {fileID: 0}
+    - target: {fileID: 3033027247830566180, guid: 8660fd6ce4dd552459639853153da14a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5625764395834793047, guid: 8660fd6ce4dd552459639853153da14a, type: 3}
       propertyPath: m_RootOrder
       value: 3
