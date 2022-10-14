@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     GameObject _lockTarget; // 마우스로 타겟한 오브젝트 담는 변수
 
+    int _mask = (1 << (int)Define.Layer.Ground) | (1 << (int)Define.Layer.Monster);
+
     // 플레이어 상태
     public enum PlayerState
     {
@@ -33,18 +35,15 @@ public class PlayerController : MonoBehaviour
 
             switch (_state){
                 case PlayerState.Moving:
-                    anim.SetFloat("speed", _stat.MoveSpeed);
-                    anim.SetBool("attack", false);
+                    anim.CrossFade("RUN", 0.1f);    // CrossFade는 애니메이션의 부드러움, 반복도 등 설정이 가능하다.
                     break;
                 case PlayerState.Idle:
-                    anim.SetFloat("speed", 0f);
-                    anim.SetBool("attack", false);
+                    anim.CrossFade("WAIT", 0.1f);
                     break;
                 case PlayerState.Skill:
-                    anim.SetBool("attack", true);
+                    anim.CrossFade("ATTACK", 0.1f, -1, 0);
                     break;
                 case PlayerState.Die:
-                    anim.SetBool("attack", false);
                     break;
             }
         }
@@ -83,13 +82,18 @@ public class PlayerController : MonoBehaviour
     // 이동 메소드
     void UpdateMoving()
     {
+        // 타겟(몬스터)가 존재하면 두 사이 거리가 1f 일때 멈추고 스킬 시전(공격)
         if (_lockTarget != null){
-            float distance = (_destPos - transform.position).magnitude;
+            float distance = (_lockTarget.transform.position - transform.position).magnitude;
             if (distance <= 1f){
+                Debug.Log("Skill On");
                 State = PlayerState.Skill;
                 return;
             }
         }
+
+        // 타겟 대상을 클릭했을 때 콜라이더 위쪽을 클릭하게 된다면 그쪽을 바라보고 달리기 때문에 y값을 0으로 준다.
+        _destPos.y = 0; 
 
         // 도착 위치 벡터에서 플레이어 위치 벡터를 뺀다.
         Vector3 dir = _destPos - transform.position;
@@ -99,7 +103,6 @@ public class PlayerController : MonoBehaviour
             State = PlayerState.Idle;
         }
         else{
-            // TODO
             NavMeshAgent nav = gameObject.GetComponent<NavMeshAgent>();
 
             float moveDist = Mathf.Clamp(_stat.MoveSpeed * Time.deltaTime, 0, dir.magnitude);
@@ -108,8 +111,9 @@ public class PlayerController : MonoBehaviour
             // 건물을 클릭하여 이동하면 건물 앞에 멈추기 (1.0f 거리에서 멈추기)
             Debug.DrawRay(transform.position + (Vector3.up * 0.5f), dir.normalized, Color.red);
             if (Physics.Raycast(transform.position + (Vector3.up * 0.5f), dir, 1.0f, LayerMask.GetMask("Block"))){
-                if (Input.GetMouseButton(0) == false)
+                if (Input.GetMouseButton(0) == false){
                     State = PlayerState.Idle;
+                }
                 return;
             }
             
@@ -124,6 +128,12 @@ public class PlayerController : MonoBehaviour
 
     void UpdateSkill()
     {
+        // 타겟 바라보기
+        if (_lockTarget != null){
+            Vector3 dir = _lockTarget.transform.position - transform.position;
+            Quaternion quat = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Lerp(transform.rotation, quat, 20 * Time.deltaTime);
+        }
     }
 
     // 죽음 메소드
@@ -132,19 +142,41 @@ public class PlayerController : MonoBehaviour
         // 아무것도 못함.
     }
 
-    // 애니메이션에서 이벤트 호출
+    // 애니메이션에서 이벤트 호출 (공격 모션 끝날 쯤 실행 됨.)
     void OnHitEvent()
     {
-        State = PlayerState.Idle;
+        // TODO
+        if (_stopSkill){
+            State = PlayerState.Idle;
+        }
+        else{
+            State = PlayerState.Skill;
+        }
     }
     
     // 마우스 클릭 메소드
-    int _mask = (1 << (int)Define.Layer.Ground) | (1 << (int)Define.Layer.Monster);
+    bool _stopSkill = false;
     void OnMouseEvent(Define.MouseEvent evt)
     {
-        if (State == PlayerState.Die)
-            return;
+        switch(State){
+            case PlayerState.Moving:
+                OnMouseEvent_IdleRun(evt);
+                break;
+            case PlayerState.Idle:
+                OnMouseEvent_IdleRun(evt);
+                break;
+            case PlayerState.Skill:
+                {
+                    if (evt == Define.MouseEvent.PointUp){  // 클릭을 때면 공격이 끝났다는 뜻이므로 스킬 중지
+                        _stopSkill = true;
+                    }
+                }
+                break;
+        }
+    }
 
+    void OnMouseEvent_IdleRun(Define.MouseEvent evt)
+    {
         // 메인 카메라에서 마우스가 가르키는 위치의 ray를 저장
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         bool raycastHit = Physics.Raycast(ray, out hit, 100f, _mask);
@@ -157,6 +189,7 @@ public class PlayerController : MonoBehaviour
                     if (raycastHit){
                         _destPos = hit.point;   // 해당 좌표 저장
                         State = PlayerState.Moving;
+                        _stopSkill = false;
 
                         if (hit.collider.gameObject.layer == (int)Define.Layer.Monster)
                             _lockTarget = hit.collider.gameObject;
@@ -168,17 +201,13 @@ public class PlayerController : MonoBehaviour
             // 마우스를 클릭 중일 때
             case Define.MouseEvent.Press:
                 {
-                    if (_lockTarget != null)
-                        _destPos = _lockTarget.transform.position;
-                    else if (raycastHit) {
+                    if (_lockTarget != null && raycastHit)
                         _destPos = hit.point;
-                    }
                 }
                 break;
-            // // 마우스를 땠을 때 (한번 클릭만 했을 때 타겟팅 되면 타겟이 null되므로 삭제.)
-            // case Define.MouseEvent.PointUp:
-            //     _lockTarget = null;
-            //     break;
+            case Define.MouseEvent.PointUp:
+                _stopSkill = true;
+                break;
         }
     }
 }

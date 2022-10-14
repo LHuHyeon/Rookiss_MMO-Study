@@ -21,6 +21,7 @@ public class CursorController : MonoBehaviour
 
     void Start()
     {
+        // 커서 텍스쳐 가져오기
         _attackIcon = Managers.Resource.Load<Texture2D>("Textures/Cursor/Attack");
         _handIcon = Managers.Resource.Load<Texture2D>("Textures/Cursor/Hand");
     }
@@ -36,13 +37,13 @@ public class CursorController : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 100f, _mask)){
             if (hit.collider.gameObject.layer == (int)Define.Layer.Monster){
                 if (_cursorType != CursorType.Attack){
-                    Cursor.SetCursor(_attackIcon, new Vector2(_attackIcon.width / 5, 0), CursorMode.Auto);
+                    Cursor.SetCursor(_attackIcon, new Vector2(_attackIcon.width / 3.9f, 0), CursorMode.Auto);
                     _cursorType = CursorType.Attack;
                 }
             }
             else{
                 if (_cursorType != CursorType.Hand){
-                    Cursor.SetCursor(_handIcon, new Vector2(_handIcon.width / 3, 0), CursorMode.Auto);
+                    Cursor.SetCursor(_handIcon, new Vector2(_handIcon.width / 3.1f, 0), CursorMode.Auto);
                     _cursorType = CursorType.Hand;
                 }
             }
