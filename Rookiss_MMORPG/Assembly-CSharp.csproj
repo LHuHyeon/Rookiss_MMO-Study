@@ -76,6 +76,7 @@
      <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
      <Compile Include="Assets\Scripts\Manager\DataManager.cs" />
      <Compile Include="Assets\Scripts\Manager\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\UI\WorldSpace\UI_HPBar.cs" />
      <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_fuku.shader" />
      <None Include="Assets\Resources\Art\Town\Readme.txt" />
      <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_akarami_blend.shader" />

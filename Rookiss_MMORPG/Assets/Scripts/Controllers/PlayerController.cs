@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviour
         // 같은 메소드가 두번 호출되는 것을 막기 위해서.
         Managers.Input.MouseAction -= OnMouseEvent;
         Managers.Input.MouseAction += OnMouseEvent;
+
+        Managers.UI.MakeWorldSpaceUI<UI_HPBar>(transform);  // 체력바
     }
 
     void Update()
@@ -128,7 +130,7 @@ public class PlayerController : MonoBehaviour
 
     void UpdateSkill()
     {
-        // 타겟 바라보기
+        // 스킬 사용 중에 타겟 바라보기
         if (_lockTarget != null){
             Vector3 dir = _lockTarget.transform.position - transform.position;
             Quaternion quat = Quaternion.LookRotation(dir);
@@ -145,6 +147,15 @@ public class PlayerController : MonoBehaviour
     // 애니메이션에서 이벤트 호출 (공격 모션 끝날 쯤 실행 됨.)
     void OnHitEvent()
     {
+        // 상대방껄 꺼내와서 스탯을 처리해주는게 좋다!
+        if (_lockTarget != null){
+            Stat targetStat = _lockTarget.GetComponent<Stat>();
+            PlayerStat myStat = gameObject.GetComponent<PlayerStat>();
+
+            int damage = Mathf.Max(0, myStat.Attack - targetStat.Defense);
+            targetStat.Hp -= damage;
+        }
+
         // TODO
         if (_stopSkill){
             State = PlayerState.Idle;
@@ -201,7 +212,9 @@ public class PlayerController : MonoBehaviour
             // 마우스를 클릭 중일 때
             case Define.MouseEvent.Press:
                 {
-                    if (_lockTarget != null && raycastHit)
+                    if (_lockTarget != null)
+                        _destPos = _lockTarget.transform.position;
+                    else if (raycastHit)
                         _destPos = hit.point;
                 }
                 break;

@@ -12,6 +12,11 @@ public abstract class UI_Base : MonoBehaviour
 
     public abstract void Init();
 
+    void Start()
+    {
+        Init();
+    }
+
     // where T : 부모 클래스의 자식 클래스만 가능
     protected void Bind<T>(Type type) where T : UnityEngine.Object
     {

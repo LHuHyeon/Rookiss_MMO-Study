@@ -38,6 +38,25 @@ public class UIManager
         }
     }
 
+    // 3D 안에 있는 WorldSpace에서 UI 생성 (캐릭터 체력 UI ...)
+    public T MakeWorldSpaceUI<T>(Transform parent = null, string name = null) where T : UI_Base
+    {
+        if (string.IsNullOrEmpty(name)){
+            name = typeof(T).Name;
+        }
+
+        GameObject go = Managers.Resource.Instantiate($"UI/WorldSpace/{name}");
+
+        if (parent != null)
+            go.transform.SetParent(parent);
+
+        Canvas canvas = go.GetOrAddComponent<Canvas>(); // or -> go.GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.worldCamera = Camera.main;
+
+        return go.GetOrAddComponent<T>();
+    }
+
     // 인벤토리의 슬롯 및 아이템 생성
     public T MakeSubItem<T>(Transform parent = null, string name = null) where T : UI_Base
     {

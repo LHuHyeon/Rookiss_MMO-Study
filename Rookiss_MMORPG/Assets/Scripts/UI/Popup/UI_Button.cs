@@ -30,10 +30,6 @@ public class UI_Button : UI_Popup
         ItemIcon,
     }
 
-    private void Start() {
-        Init();
-    }
-
     // Start를 override 하는 것 보다 Init를 사용하는게 좋음.
     public override void Init()
     {
