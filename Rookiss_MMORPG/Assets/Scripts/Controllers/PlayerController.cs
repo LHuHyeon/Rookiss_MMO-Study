@@ -3,53 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : BaseController
 {
     PlayerStat _stat;   // 플레이어 스탯
-    Vector3 _destPos;   // 도착 좌표
+    
+    bool _stopSkill = false;    // 공격 가능 여부
 
-    RaycastHit hit;
-    Animator anim;
-
-    GameObject _lockTarget; // 마우스로 타겟한 오브젝트 담는 변수
-
+    // LayerMask 변수
     int _mask = (1 << (int)Define.Layer.Ground) | (1 << (int)Define.Layer.Monster);
 
-    // 플레이어 상태
-    public enum PlayerState
-    {
-        Moving,
-        Idle,
-        Die,
-        Skill,
-    }
-    [SerializeField]
-    PlayerState _state = PlayerState.Idle;
-
-    // 플레이어 상태에 따라 애니메이션이 작동하는 _state의 프로퍼티
-    public PlayerState State
-    {
-        get { return _state; }
-        set {
-            _state = value;
-
-            switch (_state){
-                case PlayerState.Moving:
-                    anim.CrossFade("RUN", 0.1f);    // CrossFade는 애니메이션의 부드러움, 반복도 등 설정이 가능하다.
-                    break;
-                case PlayerState.Idle:
-                    anim.CrossFade("WAIT", 0.1f);
-                    break;
-                case PlayerState.Skill:
-                    anim.CrossFade("ATTACK", 0.1f, -1, 0);
-                    break;
-                case PlayerState.Die:
-                    break;
-            }
-        }
-    }
-
-    void Start()
+    public override void Init()
     {
         _stat = gameObject.GetComponent<PlayerStat>();
         anim = GetComponent<Animator>();
@@ -59,37 +22,19 @@ public class PlayerController : MonoBehaviour
         Managers.Input.MouseAction -= OnMouseEvent;
         Managers.Input.MouseAction += OnMouseEvent;
 
-        Managers.UI.MakeWorldSpaceUI<UI_HPBar>(transform);  // 체력바
-    }
-
-    void Update()
-    {
-        // State 패턴
-        switch (State){
-            case PlayerState.Moving:    // 움직임
-                UpdateMoving();
-                break;
-            case PlayerState.Idle:      // 가만히 있기
-                UpdateIdle();
-                break;
-            case PlayerState.Skill:     // 스킬
-                UpdateSkill();
-                break;
-            case PlayerState.Die:       // 죽음
-                UpdateDie();
-                break;
-        }
+        if (gameObject.GetComponentInChildren<UI_HPBar>() == null)
+            Managers.UI.MakeWorldSpaceUI<UI_HPBar>(transform);  // 체력바 생성
     }
 
     // 이동 메소드
-    void UpdateMoving()
+    protected override void UpdateMoving()
     {
         // 타겟(몬스터)가 존재하면 두 사이 거리가 1f 일때 멈추고 스킬 시전(공격)
         if (_lockTarget != null){
             float distance = (_lockTarget.transform.position - transform.position).magnitude;
             if (distance <= 1f){
                 Debug.Log("Skill On");
-                State = PlayerState.Skill;
+                State = Define.State.Skill;
                 return;
             }
         }
@@ -102,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
         // Vector3.magnitude = 벡터값의 길이
         if (dir.magnitude < 0.1f){
-            State = PlayerState.Idle;
+            State = Define.State.Idle;
         }
         else{
             NavMeshAgent nav = gameObject.GetComponent<NavMeshAgent>();
@@ -114,7 +59,7 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(transform.position + (Vector3.up * 0.5f), dir.normalized, Color.red);
             if (Physics.Raycast(transform.position + (Vector3.up * 0.5f), dir, 1.0f, LayerMask.GetMask("Block"))){
                 if (Input.GetMouseButton(0) == false){
-                    State = PlayerState.Idle;
+                    State = Define.State.Idle;
                 }
                 return;
             }
@@ -122,13 +67,8 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20f * Time.deltaTime);
         }
     }
-    
-    // 멈추는 메소드
-    void UpdateIdle()
-    {
-    }
 
-    void UpdateSkill()
+    protected override void UpdateSkill()
     {
         // 스킬 사용 중에 타겟 바라보기
         if (_lockTarget != null){
@@ -136,12 +76,6 @@ public class PlayerController : MonoBehaviour
             Quaternion quat = Quaternion.LookRotation(dir);
             transform.rotation = Quaternion.Lerp(transform.rotation, quat, 20 * Time.deltaTime);
         }
-    }
-
-    // 죽음 메소드
-    void UpdateDie()
-    {
-        // 아무것도 못함.
     }
 
     // 애니메이션에서 이벤트 호출 (공격 모션 끝날 쯤 실행 됨.)
@@ -158,25 +92,24 @@ public class PlayerController : MonoBehaviour
 
         // TODO
         if (_stopSkill){
-            State = PlayerState.Idle;
+            State = Define.State.Idle;
         }
         else{
-            State = PlayerState.Skill;
+            State = Define.State.Skill;
         }
     }
     
     // 마우스 클릭 메소드
-    bool _stopSkill = false;
     void OnMouseEvent(Define.MouseEvent evt)
     {
         switch(State){
-            case PlayerState.Moving:
+            case Define.State.Moving:
                 OnMouseEvent_IdleRun(evt);
                 break;
-            case PlayerState.Idle:
+            case Define.State.Idle:
                 OnMouseEvent_IdleRun(evt);
                 break;
-            case PlayerState.Skill:
+            case Define.State.Skill:
                 {
                     if (evt == Define.MouseEvent.PointUp){  // 클릭을 때면 공격이 끝났다는 뜻이므로 스킬 중지
                         _stopSkill = true;
@@ -199,7 +132,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (raycastHit){
                         _destPos = hit.point;   // 해당 좌표 저장
-                        State = PlayerState.Moving;
+                        State = Define.State.Moving;
                         _stopSkill = false;
 
                         if (hit.collider.gameObject.layer == (int)Define.Layer.Monster)
