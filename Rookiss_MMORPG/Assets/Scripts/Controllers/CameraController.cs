@@ -12,18 +12,13 @@ public class CameraController : MonoBehaviour
     private GameObject _player;
 
     RaycastHit hit;
-
-    void Start()
-    {
-        
-    }
-
+    
     // 카메라 위치 이동을 마지막 업데이트에 실행함으로 써 떨림현상 완화
     void LateUpdate()
     {
         if (_mode == Define.CameraMode.QuarterView){
             // 플레이어가 오브젝트에 가려져있다면 가깝게 이동
-            if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Structure"))){
+            if (Physics.Raycast(_player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Block"))){
                 float dist = (hit.point - _player.transform.position).magnitude * 0.8f;
                 transform.position = (_player.transform.position + Vector3.up) + _delta.normalized * dist;
             }

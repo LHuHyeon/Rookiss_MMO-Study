@@ -29,11 +29,11 @@ public class PlayerController : BaseController
     // 이동 메소드
     protected override void UpdateMoving()
     {
-        // 타겟(몬스터)가 존재하면 두 사이 거리가 1f 일때 멈추고 스킬 시전(공격)
+        // 타겟(몬스터)가 존재하면 두 사이 거리가 1f 보다 같거나작을때 멈추고 스킬 시전(공격)
         if (_lockTarget != null){
             float distance = (_lockTarget.transform.position - transform.position).magnitude;
             if (distance <= 1f){
-                Debug.Log("Skill On");
+                Debug.Log("Player Skill On");
                 State = Define.State.Skill;
                 return;
             }
@@ -46,24 +46,20 @@ public class PlayerController : BaseController
         Vector3 dir = _destPos - transform.position;
 
         // Vector3.magnitude = 벡터값의 길이
-        if (dir.magnitude < 0.1f){
+        if (dir.magnitude < 0.1f)
             State = Define.State.Idle;
-        }
         else{
-            NavMeshAgent nav = gameObject.GetComponent<NavMeshAgent>();
-
-            float moveDist = Mathf.Clamp(_stat.MoveSpeed * Time.deltaTime, 0, dir.magnitude);
-            nav.Move(dir.normalized * moveDist);
-
             // 건물을 클릭하여 이동하면 건물 앞에 멈추기 (1.0f 거리에서 멈추기)
             Debug.DrawRay(transform.position + (Vector3.up * 0.5f), dir.normalized, Color.red);
             if (Physics.Raycast(transform.position + (Vector3.up * 0.5f), dir, 1.0f, LayerMask.GetMask("Block"))){
-                if (Input.GetMouseButton(0) == false){
+                if (Input.GetMouseButton(0) == false)
                     State = Define.State.Idle;
-                }
                 return;
             }
+
+            float moveDist = Mathf.Clamp(_stat.MoveSpeed * Time.deltaTime, 0, dir.magnitude);
             
+            transform.position += dir.normalized * moveDist;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20f * Time.deltaTime);
         }
     }
@@ -91,12 +87,10 @@ public class PlayerController : BaseController
         }
 
         // TODO
-        if (_stopSkill){
+        if (_stopSkill)
             State = Define.State.Idle;
-        }
-        else{
+        else
             State = Define.State.Skill;
-        }
     }
     
     // 마우스 클릭 메소드
