@@ -17,6 +17,9 @@ public abstract class BaseController : MonoBehaviour
     [SerializeField]
     protected Define.State _state = Define.State.Idle; // 상태 변수
 
+    [SerializeField]
+    public Define.WorldObject WorldObjectType { get; protected set; } = Define.WorldObject.Unknown;
+
     // 캐릭터 상태에 따라 애니메이션이 작동하는 _state의 프로퍼티
     public virtual Define.State State
     {

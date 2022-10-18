@@ -13,6 +13,13 @@ public class Define : MonoBehaviour
         Skill,
     }
 
+    public enum WorldObject
+    {
+        Unknown,
+        Player,
+        Monster,
+    }
+
     public enum Layer
     {
         Monster = 6,
