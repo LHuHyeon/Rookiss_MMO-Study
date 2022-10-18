@@ -9,6 +9,8 @@ public class GameManager
 
     HashSet<GameObject> _monsters = new HashSet<GameObject>();
 
+    public GameObject GetPlayer() { return _player; }
+
     // 캐릭터 소환
     public GameObject Spawn(Define.WorldObject type, string path, Transform parent = null)
     {
@@ -45,7 +47,7 @@ public class GameManager
         switch(GetWorldObjectType(go)){
             case Define.WorldObject.Monster:
                 {
-                    if (_monsters.Contains(go))
+                    if (_monsters.Contains(go)) // 존재 여부 확인
                         _monsters.Remove(go);
                 }
                 break;

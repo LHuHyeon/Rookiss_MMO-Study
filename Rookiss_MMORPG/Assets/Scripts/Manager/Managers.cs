@@ -10,12 +10,15 @@ public class Managers : MonoBehaviour
     private static Managers Instance { get { Init(); return s_instance; } }  // 유일한 매니저를 갖고 온다.
 
 #region Contents
+
     private GameManager _game = new GameManager();
 
     public static GameManager Game { get { return Instance._game; } }
+
 #endregion
 
 #region Core
+
     private DataManager _data = new DataManager();
     private InputManager _input = new InputManager();
     private PoolManager _pool = new PoolManager();
@@ -31,6 +34,7 @@ public class Managers : MonoBehaviour
     public static SceneManagerEx Scene { get { return Instance._scene; } }
     public static SoundManager Sound { get { return Instance._sound; } }
     public static UIManager UI { get { return Instance._ui; } }
+
 #endregion
 
     void Start()
@@ -58,7 +62,7 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(go);                      // 씬변경될 때 삭제 안됨.
             s_instance = go.GetComponent<Managers>();
             
-            // [ Sound.Init()를 사용안한 이유 ] 
+            // [ 프로퍼티 변수를 사용안한 이유 ] 
             // "Sound = Instance._sound"인데 Instance안에 Init() 호출 메소드가 있으므로 무한루프에 빠질 수 있다.
             // 그러므로 s_instance를 사용해서 접근한다.
             // (개인적인 생각으로는 s_instance가 생성된 후 호출하는 것이기 때문에 무한루프에 걸리진 않을 것 같다.)

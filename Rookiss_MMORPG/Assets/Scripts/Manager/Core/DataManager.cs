@@ -10,6 +10,7 @@ public interface ILoader<Key, Value>
 
 public class DataManager
 {
+    // 플레이어 스탯 데이터
     public Dictionary<int, Data.Stat> StatDict { get; private set; } = new Dictionary<int, Data.Stat>();
 
     public void Init()

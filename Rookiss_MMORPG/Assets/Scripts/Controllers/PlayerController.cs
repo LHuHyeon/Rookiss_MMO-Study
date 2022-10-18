@@ -24,7 +24,7 @@ public class PlayerController : BaseController
         Managers.Input.MouseAction -= OnMouseEvent;
         Managers.Input.MouseAction += OnMouseEvent;
 
-        if (gameObject.GetComponentInChildren<UI_HPBar>() == null)
+        if (gameObject.GetComponentInChildren<UI_HPBar>() == null)  // 자식 객체안에 존재하는 지
             Managers.UI.MakeWorldSpaceUI<UI_HPBar>(transform);  // 체력바 생성
     }
 
@@ -82,13 +82,9 @@ public class PlayerController : BaseController
         // 상대방껄 꺼내와서 스탯을 처리해주는게 좋다!
         if (_lockTarget != null){
             Stat targetStat = _lockTarget.GetComponent<Stat>();
-            PlayerStat myStat = gameObject.GetComponent<PlayerStat>();
-
-            int damage = Mathf.Max(0, myStat.Attack - targetStat.Defense);
-            targetStat.Hp -= damage;
+            targetStat.OnAttacked(_stat);
         }
 
-        // TODO
         if (_stopSkill)
             State = Define.State.Idle;
         else
