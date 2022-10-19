@@ -49,7 +49,6 @@
      <Compile Include="Assets\Scripts\Scenes\BaseScene.cs" />
      <Compile Include="Assets\Scripts\Controllers\CameraController.cs" />
      <Compile Include="Assets\Scripts\UI\Popup\UI_Button.cs" />
-     <Compile Include="Assets\Scripts\Data\Stat.cs" />
      <Compile Include="Assets\Scripts\Controllers\CursorController.cs" />
      <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Utills\Util.cs" />
@@ -66,9 +65,10 @@
      <Compile Include="Assets\Scripts\Scenes\LoginScene.cs" />
      <Compile Include="Assets\Scripts\Manager\Core\ResourceManager.cs" />
      <Compile Include="Assets\Scripts\Controllers\BaseController.cs" />
+     <Compile Include="Assets\Scripts\Manager\Contents\GameManager.cs" />
      <Compile Include="Assets\Scripts\Manager\Core\DataManager.cs" />
      <Compile Include="Assets\Scripts\Manager\Core\SoundManager.cs" />
-     <Compile Include="Assets\Scripts\Manager\Contents\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Contents\SpawningPool.cs" />
      <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_fuku.shader" />
      <None Include="Assets\Resources\Art\Town\Readme.txt" />
      <None Include="Assets\Resources\Art\UnityChan\Shader\Unitychan_chara_akarami_blend.shader" />

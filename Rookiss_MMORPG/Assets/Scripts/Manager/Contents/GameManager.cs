@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class GameManager
 
     public GameObject GetPlayer() { return _player; }
 
+    public Action<int> OnSpawnEvent;
+
     // 캐릭터 소환
     public GameObject Spawn(Define.WorldObject type, string path, Transform parent = null)
     {
@@ -19,6 +22,8 @@ public class GameManager
         switch(type){
             case Define.WorldObject.Monster:
                 _monsters.Add(go);
+                if (OnSpawnEvent != null)
+                    OnSpawnEvent.Invoke(1);
                 break;
             case Define.WorldObject.Player:
                 _player = go;
@@ -47,8 +52,11 @@ public class GameManager
         switch(GetWorldObjectType(go)){
             case Define.WorldObject.Monster:
                 {
-                    if (_monsters.Contains(go)) // 존재 여부 확인
+                    if (_monsters.Contains(go)){ // 존재 여부 확인
                         _monsters.Remove(go);
+                        if (OnSpawnEvent != null)
+                            OnSpawnEvent.Invoke(-1);
+                    }
                 }
                 break;
             case Define.WorldObject.Player:

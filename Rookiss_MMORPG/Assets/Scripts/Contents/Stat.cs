@@ -43,6 +43,7 @@ public class Stat : MonoBehaviour
     // 죽었을 때
     protected virtual void OnDead(Stat attacker)
     {
+        // attacker가 Player라면 경험치 흭득.
         PlayerStat playerStat = attacker as PlayerStat;
         if (playerStat != null){
             playerStat.Exp += 5;

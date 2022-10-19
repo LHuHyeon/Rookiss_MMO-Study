@@ -1919,9 +1919,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8787137986661877191}
   - component: {fileID: 4954040842611000476}
-  - component: {fileID: 8825410510340875820}
   - component: {fileID: 7427566668364202770}
   - component: {fileID: 500071390755612211}
+  - component: {fileID: -4937873001851226115}
+  - component: {fileID: 8825410510340875820}
   - component: {fileID: 1091432371917107408}
   m_Layer: 6
   m_Name: Knight
@@ -1968,24 +1969,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8825410510340875820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7259209511964514474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eba9a7519383e3d448a64b26e6f02ca9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _level: 0
-  _hp: 0
-  _maxHp: 0
-  _attack: 0
-  _defense: 0
-  _movespeed: 0
 --- !u!136 &7427566668364202770
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2022,6 +2005,37 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-4937873001851226115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7259209511964514474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8527b76183a2b04eb7f66d7a1920d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUsing: 0
+--- !u!114 &8825410510340875820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7259209511964514474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eba9a7519383e3d448a64b26e6f02ca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _level: 0
+  _hp: 0
+  _maxHp: 0
+  _attack: 0
+  _defense: 0
+  _movespeed: 0
 --- !u!114 &1091432371917107408
 MonoBehaviour:
   m_ObjectHideFlags: 0
